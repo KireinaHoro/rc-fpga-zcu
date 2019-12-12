@@ -1,29 +1,31 @@
 /include/ "system-conf.dtsi"
+
 / {
 	chosen {
 		bootargs = "earlycon clk_ignore_unused root=/dev/mmcblk0p2 rw rootwait rootfstype=ext4 uio_pdrv_genirq.of_id=generic-uio";
 		stdout-path = "serial0:115200n8";
 	};
 
-        htif_0: htif@a0000000 {
+    /* lower half (2G) for ARM */
+    mem: memory@00000000 {
+        device_type = "memory";
+        reg = <0x00000000 0x00000000 0x00000000 0x80000000>;
+    };
+
+    htif_0: htif@a0000000 {
         #address-cells = <1>;
         #size-cells = <1>;
         compatible = "generic-uio", "uio", "uio_pdrv";
         reg = <0x0 0xa0000000 0x0 0x1000>;
+    };
+
+    leds {
+        compatible = "gpio-leds";
+        panic_led {
+            label = "panic";
+            gpios = <&gpio 23 1>;
+            panic-indicator;
+            linux,default-trigger = "none";
         };
-gpio-keys {
- sw19 {
- compatible = "gpio-keys";
- label = "sw19";
- status = "disabled";
- };
- };
- leds {
- compatible = "gpio-leds";
- heartbeat_led {
- label = "heartbeat";
- linux,default-trigger = "heartbeat";
- status = "disabled";
-};
- };
+    };
 };
