@@ -96,6 +96,7 @@ $(common_build)/$(TOP_MODULE).$(CONFIG).v: $(common_build)/$(TOP_MODULE).$(CONFI
 
 src/verilog/$(TOP_MODULE).$(CONFIG).v: $(common_build)/$(TOP_MODULE).$(CONFIG).v
 	cp $< $@
+	sed -i 's/wire.*csr_io_trace_/(* mark_debug="true" *) \0/g' $@
 
 rocket: src/verilog/$(TOP_MODULE).$(CONFIG).v
 
