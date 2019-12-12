@@ -123,7 +123,6 @@ bitstream: $(bitstream)
 #TUO add petalinux flow here
 # ------------------------------------------------------------------------------
 #Build petalinux:
-PL_PATH = ${PETALINUX} 
 #/opt/Xilinx/petalinux
 sub_base_dir = $(base_dir)/zcu102
 
@@ -131,7 +130,7 @@ pl_proj = petalinux_proj
 pl_output_dir = $(sub_base_dir)/$(petalinux_proj)/images/linux
 config_dir = $(sub_base_dir)/soft_config
 pl_srcs = $(config_dir)/petalinux_bd.sh $(config_dir)/config $(config_dir)/rootfs_config \
-	$(config_dir)/system-user.dtsi $(config_dir)/xilinx-zcu102-2017.1-final.bsp \
+	$(config_dir)/system-user.dtsi $(config_dir)/xilinx-zcu102-v2017.1-final.bsp \
 	$(config_dir)/rocketchip_wrapper.bit $(config_dir)/rocketchip_wrapper.hdf
 
 export_hw : $(exported_files)
@@ -145,7 +144,7 @@ $(exported_files) :
 kernel_image = $(pl_output_dir)/BOOT.BIN $(pl_output_dir)/image.ub
 
 pl_setup : 
-	source $(PL_PATH)/settings.sh
+	source ${PETALINUX}/settings.sh
 
 $(kernel_image) : $(pl_srcs)
 	bash $(config_dir)/petalinux_bd.sh $(pl_proj)
@@ -170,14 +169,14 @@ load-sd: $(images)
 
 rootfs-open: $(images)
 	mkdir rootfs
-	gunzip -c fpga-images-$(BOARD)/initramfs.cpio.gz | sudo sh -c "cd rootfs/ && cpio -i"
+	gunzip -c fpga-images-$(BOARD)/rootfs.cpio.gz | sudo sh -c "cd rootfs/ && cpio -i"
 
 rootfs-close:
 	@if [ ! -d "rootfs" ]; then \
-		echo "No initramfs to close (use make rootfs-open first)"; \
+		echo "No rootfs to close (use make rootfs-open first)"; \
 		exit 1; \
 	fi
-	sudo sh -c 'cd rootfs/ && sudo find . | sudo cpio -H newc -o' | gzip -9 > fpga-images-$(BOARD)/initramfs.cpio.gz
+	sudo sh -c 'cd rootfs/ && sudo find . | sudo cpio -H newc -o' | gzip -9 > fpga-images-$(BOARD)/rootfs.cpio.gz
 
 # Build riscv-fesvr for zynq
 #TODO TUO change the names from zynq to zcu

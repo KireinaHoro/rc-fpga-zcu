@@ -216,8 +216,8 @@ CONFIG_SUBSYSTEM_TFTPBOOT_DIR="/tftpboot"
 #
 # Firmware Version Configuration
 #
-CONFIG_SUBSYSTEM_HOSTNAME="xilinx-zcu102-2017_1"
-CONFIG_SUBSYSTEM_PRODUCT="xilinx-zcu102-2017.1"
+CONFIG_SUBSYSTEM_HOSTNAME="xilinx-zcu102-v2017_1"
+CONFIG_SUBSYSTEM_PRODUCT="xilinx-zcu102-v2017.1"
 CONFIG_SUBSYSTEM_FW_VERSION="1.00"
 CONFIG_SUBSYSTEM_MACHINE_NAME="zcu102-revb"
 
@@ -253,7 +253,7 @@ CONFIG_YOCTO_NETWORK_SSTATE_FEEDS=y
 #
 # Network sstate feeds URL
 #
-CONFIG_YOCTO_NETWORK_SSTATE_FEEDS_URL="http://petalinux.xilinx.com/sswreleases/rel-v2017.1/aarch64/sstate-cache"
+CONFIG_YOCTO_NETWORK_SSTATE_FEEDS_URL="http://petalinux.xilinx.com/sswreleases/rel-v2019/aarch64/sstate-cache"
 
 #
 # User Layers
